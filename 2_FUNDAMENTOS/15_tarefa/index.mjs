@@ -6,8 +6,11 @@
 //inisira um tratamento para um possível erro de inquirer com o catch;
 
 import chalk from 'chalk';
-import inquirer from 'inquirer'
+import inquirer from 'inquirer';
 
+//chalk: é uma biblioteca que viabiliza a coloração de texto na saída do console.
+
+//Inquirer: é uma biblioteca que facilita a criação de interfaces de linha de comando(CLI) interativas. É útil quando você precisa coletar informações do usuário de maneira amigável e estruturada.
 inquirer.prompt([{
     name:'nome',
     message: 'Qual seu nome?'
