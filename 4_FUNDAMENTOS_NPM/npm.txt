@@ -1,0 +1,17 @@
+NPM ( Node Package Manager) é um gerenciador de pacotes para o ambiente de tempo de execução Node.js. Permite instalar e gerenciar pacotes de software em projetos. Esses pacotes podem ser bibliotecas, ferramentas, frameworks ou qualquer outro tipo de código que você possa querer usar em seu projeto.
+
+Algumas Funcionalidades:
+
+1 - Instalação de pacotes:
+
+    É possível instalar pacotes utilizando o comando npm install <nome-do-pacote>. Isso baixa o pacote e suas dependências e as instala no diretório node_modules do seu projeto.
+
+2 - Gerenciamento de versões:
+
+    O NPM permite especificar a versão exata dos pacotes que você deseja usar em seu projeto.
+
+3 - Dependências de projeto:
+
+4 - Scripts de automação:
+
+5 - Publicação de pacotes:
