@@ -12,6 +12,12 @@ Algumas Funcionalidades:
 
 3 - Dependências de projeto:
 
+    O NPM permite definir e gerenciar as dependências do projeto. As dependências são outros pacotes que seu projeto precisa para funcionar corretamente. Elas são listadas no arquivo package.json.
+
 4 - Scripts de automação:
 
+    O NPM permite definir scripts de automação no arquivo package.json. Estes scripts podem ser usados para automatizar tarefas comuns de desenvolvimento, como testes, construção e implantação. Por exemplo, você pode ter um script para iniciar seu servidor de desenvolvimento, outro para executar seus testes e outro para construir sua aplicação para produção.
+
 5 - Publicação de pacotes:
+
+    Com o NPM, você pode publicar seus próprios pacotes para que outros desenvolvedores possam usá-los em seus projetos. Para fazer isso, você precisa criar uma conta no site do NPM, autenticar-se no NPM CLI e então usar o comando NPM publish para publicar seu pacote.
