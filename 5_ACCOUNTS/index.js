@@ -108,6 +108,26 @@ async function deposit() {
             return deposit()
         }
 
+        try {
+
+            const amountAnswer = await inquirer.prompt([
+                {
+                    name:'amount',
+                    message:' DIGITE O VALOR PARA DEPÓSITO: '
+                }
+            ])
+                
+                const amount = amountAnswer['amount']
+
+                //add amount
+                addAmount(accountName, amount)
+
+                //como chamar o operation depois de finalizar a função?
+                operation()
+
+        } catch (err) {
+            console.log(err);
+        }
     } catch (err) {
         console.log(err);
     }
@@ -118,8 +138,26 @@ function checkAccount(accountName) {
 
     if(!fs.existsSync(`accounts/${accountName}.json`)) {
         console.log(chalk.bgRed.black('ESTA CONTA NÃO EXISTE, ESCOLHA OUTRO NOME!'));
-        return false
+        return false;
     }
 
-    return true
+    return true;
+}
+
+async function addAmount(accountName, amount) {
+
+   const account = await getAccount(accountName)
+   console.log(account)
+
+
+}
+//function helper para retornar o arquivo em json
+async function getAccount(accountName) {
+
+    const accountJSON = await fs.readFileSync(`accounts/${accountName}.json`, {
+        encoding: 'utf8',
+        flag: 'r'
+    })
+
+    return JSON.parse(accountJSON)//parse converte uma string formatada em json em um objeto javascript
 }
