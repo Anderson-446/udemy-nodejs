@@ -15,6 +15,7 @@ async function operation() {
         const answers = await inquirer.prompt([{ //abrindo array
         type: 'list', //objeto lista de opções
         name: 'action', //pergunta
+        message: ' O QUE VOCÊ GOSTARIA DE FAZER? ',
         choices: [
             'CRIAR CONTA',
             'DEPOSITAR',
@@ -31,9 +32,9 @@ async function operation() {
         } else if (action === 'DEPOSITAR') {
             deposit()
         } else if (action === 'CONSULTAR SALDO') {
-
+            getAccountBalance()
         } else if (action === 'SACAR') {
-
+            withdraw()
         } else {
             console.log(chalk.bgBlue.black(' OBRIGADO POR USAR O ACCOUNTS! '));
             process.exit()
@@ -98,7 +99,7 @@ async function deposit() {
         const answer = await inquirer.prompt([
             {
                 name:'accountName',
-                message:'QUAL O NOME DA SUA CONTA?'
+                message:'DIGITE O NOME DA SUA CONTA: '
             }
         ])
         const accountName = answer['accountName']
@@ -123,7 +124,7 @@ async function deposit() {
                 addAmount(accountName, amount)
 
                 //como chamar o operation depois de finalizar a função?
-                operation()
+                //return operation()
 
         } catch (err) {
             console.log(err);
@@ -137,7 +138,7 @@ async function deposit() {
 function checkAccount(accountName) {
 
     if(!fs.existsSync(`accounts/${accountName}.json`)) {
-        console.log(chalk.bgRed.black('ESTA CONTA NÃO EXISTE, ESCOLHA OUTRO NOME!'));
+        console.log(chalk.bgRed.black(' ESTA CONTA NÃO EXISTE, ESCOLHA OUTRO NOME! '));
         return false;
     }
 
@@ -146,10 +147,25 @@ function checkAccount(accountName) {
 
 async function addAmount(accountName, amount) {
 
-   const account = await getAccount(accountName)
-   console.log(account)
+   const accountData = await getAccount(accountName)
 
+    if(!amount) {
+        console.log(chalk.bgRed.black(' OCORREU UM ERRO, TENTE NOVAMENTE MAIS TARDE... '));
+        process.exit();
+    }
 
+        
+    accountData.balance = parseFloat(amount) + parseFloat(accountData.balance)
+
+    fs.writeFileSync(`accounts/${accountName}.json`,
+    JSON.stringify(accountData),
+    function (err) {
+        console.log(err);
+    },)
+
+    console.log(chalk.green(`FOI DEPOSITADO O VALOR DE R$${amount} NA SUA CONTA`))
+    
+    return operation()
 }
 //function helper para retornar o arquivo em json
 async function getAccount(accountName) {
@@ -160,4 +176,98 @@ async function getAccount(accountName) {
     })
 
     return JSON.parse(accountJSON)//parse converte uma string formatada em json em um objeto javascript
+}
+
+//show account balance
+async function getAccountBalance() {
+
+    try {
+        const answer = await inquirer.prompt([
+            {
+                name:'accountName',
+                message: ' DIGITE O NOME DA CONTA: '
+            }
+        ])  
+        const accountName = answer['accountName']
+        //verify if account exists
+        if(!checkAccount(accountName)) {
+            getAccountBalance()
+        }
+
+        const accountData = await getAccount(accountName)
+
+        console.log(chalk.bgBlue.black(`OPA, O SALDO DA SUA CONTA É DE R$${accountData.balance}`,))
+        //operation()
+    } catch (err) {
+        console.log(err);
+    }
+  
+}
+
+//withdraw amount from user account
+async function withdraw() {
+    
+    try {
+        const answer = await inquirer.prompt([
+            { 
+                name: 'accountName',
+                message: ' DIGITE O NOME DA SUA CONTA: '
+            }
+        ])
+
+        const accountName = await answer['accountName']
+
+        if (!checkAccount(accountName)) {
+            return withdraw
+        }
+
+        const answerAmount = await inquirer.prompt ([
+            {
+                name:'amount',
+                message: ' DIGITE O VALOR QUE GOSTARIA DE SACAR: ' 
+            }
+        ])
+        
+        const amount = answerAmount['amount']
+       
+        removeAmount(accountName, amount)
+       // operation()
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+//remove amount from account
+async function removeAmount(accountName, amount) {
+
+        try {
+
+            const accountData = await getAccount(accountName)
+
+            if(!amount) {
+                console.log(chalk.bgRed.black(' OCORREU UM ERRO, TENTE NOVAMENTE MAIS TARDE... '));
+               //return withdraw()
+            }
+
+            if (accountData.balance < amount) {
+                console.log(chalk.bgRed.black(' SALDO INSUFICIENTE PARA SAQUE! '));
+                //return withdraw()
+            } else {
+                accountData.balance = parseFloat(accountData.balance) - parseFloat(amount)
+
+                console.log(chalk.green(` SAQUE DE R$${amount} REALIZADO NA SUA CONTA `));
+                operation()
+            }
+
+            fs.writeFileSync(`accounts/${accountName}.json`, JSON.stringify(accountData),
+                function(err) {
+                    console.log(err);
+                },
+            )
+
+
+
+        } catch (err) {
+            console.log(err);
+        }
 }
