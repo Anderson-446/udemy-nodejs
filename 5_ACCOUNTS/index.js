@@ -21,6 +21,7 @@ async function operation() {
             'DEPOSITAR',
             'CONSULTAR SALDO',
             'SACAR',
+            'EXCLUIR CONTA',
             'SAIR'
         ],
         }]);
@@ -28,14 +29,17 @@ async function operation() {
         const action = answers['action']
 
         if(action === 'CRIAR CONTA') {
-            createAccount()
+            createAccount();
         } else if (action === 'DEPOSITAR') {
-            deposit()
+            deposit();
         } else if (action === 'CONSULTAR SALDO') {
-            getAccountBalance()
+            getAccountBalance();
         } else if (action === 'SACAR') {
-            withdraw()
-        } else {
+            withdraw();
+        } else if (action === 'EXCLUIR CONTA') {
+            deleteAccount();
+        }
+        else {
             console.log(chalk.bgBlue.black(' OBRIGADO POR USAR O ACCOUNTS! '));
             process.exit()
         }
@@ -270,4 +274,35 @@ async function removeAmount(accountName, amount) {
         } catch (err) {
             console.log(err);
         }
+}
+
+async function deleteAccount() {
+
+    try {
+        
+        const answer = await inquirer.prompt([
+            {
+                name:'accountName',
+                message:'DIGITE O NOME DA CONTA QUE DESEJA EXCLUIR'
+            }
+        ]);
+
+        const accountName = answer['accountName']
+
+        //verify if account exists
+
+        if (!checkAccount(accountName)) {
+            console.log(' CONTA INEXISTENTE NO NOSSO SISTEMA! ');
+            deleteAccount();
+        } else {
+            fs.unlinkSync(`accounts/${accountName}.json`);
+            console.log(chalk.green(' CONTA EXCLUÍDA. FOI UM PRAZER TER VOCÊ CONOSCO! '));
+        }
+
+        // fs.unlinkSync(`accounts/${accountName}.json`);
+        // operation()
+    } catch (err) {
+        console.log(err);
+    }
+
 }
