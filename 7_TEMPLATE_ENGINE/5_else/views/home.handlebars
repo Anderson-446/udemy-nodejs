@@ -1,0 +1,18 @@
+<h1>Apenas um teste com handlebars</h1>
+{{#if approved}}
+  <p>
+    Cadastro aprovado, <a href="/">siga</a>
+  </p>
+{{else}}
+  <p>
+    É necessário cadastro para continuar
+  </p>
+{{/if}}
+
+ <p>O nome do usuário é {{user.name}} {{user.surname}}, idade: {{user.age}}</p>
+ 
+  {{#if auth}}
+    <p> 
+        Você está autenticado, <a href="/dashboard">clique aqui</a> para acessar a área de membros!
+    </p>
+ {{/if}}

@@ -1,0 +1,27 @@
+Uma template engine (ou mecanismo de modelo) é uma ferramenta que permite a geração dinâmica de conteúdo HTML ou outros formatos de texto. Em aplicações web, as template engines são frequentemente usadas para renderizar dados em páginas web de forma dinâmica, incorporando variáveis, estruturas de controle e lógica de apresentação.
+
+A principal finalidade de uma template engine é separar a lógica de apresentação (como exibir dados na interface do usuário) do restante do código. Elas permitem que você defina templates (modelos) que contêm marcadores de posição ou expressões que serão preenchidos com dados dinâmicos quando a página for renderizada no servidor antes de ser enviada para o cliente.
+
+Algumas características comuns de template engines incluem:
+
+Variáveis: Permite a inserção de variáveis dinâmicas no template.
+
+Estruturas de Controle: Fornece estruturas de controle, como loops e condicionais, para manipular a apresentação com base em lógica de negócios.
+
+Herança de Templates: Permite criar templates base e estender ou incluir partes desses templates em outros, facilitando a reutilização do código.
+
+Filtros e Helpers: Oferece funcionalidades adicionais, como filtros para formatar dados e helpers para executar tarefas específicas.
+
+Exemplos populares de template engines incluem:
+
+EJS (Embedded JavaScript): Permite incorporar JavaScript diretamente em templates HTML.
+Handlebars: Uma linguagem de template minimalista que compila templates em funções JavaScript.
+Pug (anteriormente chamado de Jade): Um template engine que usa uma sintaxe mais concisa e identada.
+
+Iremos utilizar o Handlebars no curso.
+
+Correção dos códigos do curso: 
+Houve uma alteração no Handlebars e devemos alterar as linhas com:
+app.engine('handlebars', exphbs())
+por esta:
+app.engine('handlebars', exphbs.engine())
