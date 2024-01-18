@@ -1,0 +1,16 @@
+<h1>Oceanos atemporais</h1>
+
+{{#each posts}}
+    <div>
+        <h3>
+            {{this.title}}
+        </h3>
+        <p>
+            {{this.content}}
+        </p>
+        <p>
+            {{this.comments}}
+        </p>
+        <p><a href="/post/{{this.id}}">Siga o autor</a></p>
+    </div>
+{{/each}}
