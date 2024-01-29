@@ -1,0 +1,1 @@
+Diferentemente de antes, vou tentar praticar todas as aulas em uma única pasta, porque está começando a crescer exponencialmente a cada instalação de módulos externos.
