@@ -29,6 +29,7 @@ app.get('/', async (req, res) => {
     res.render('home', {users: users})
 });
 
+//create
 app.get('/users/create', (req, res) => {
     res.render('adduser')
 });
@@ -48,7 +49,58 @@ app.post('/users/create', async (req, res) => {
     await User.create({name, occupation, newsletter})
     res.redirect('/')
 })
+//read one
+app.get('/users/:id', async (req, res) => {
+    const id = req.params.id
 
+    const user = await User.findOne({ raw: true, where: {id: id} })
+
+    res.render('userview', {user})
+})
+
+//delete
+app.post('/users/delete/:id', async (req, res) => {
+    const id = req.params.id
+
+    await User.destroy({ where: {id: id} })
+
+    res.redirect('/')
+})
+
+//edit
+app.get('/users/edit/:id', async (req, res) => {
+    const id = req.params.id
+
+    const user = await User.findOne({ raw: true, where: {id: id} })
+
+    res.render('useredit', {user})
+})
+
+app.post('/users/update', async (req, res) => {
+    const id = req.body.id
+    const name = req.body.name
+    const occupation = req.body.occupation
+    let newsletter = req.body.newsletter
+
+    if(newsletter === 'on') {
+        newsletter = true
+    } else {
+        newsletter = false
+    }
+
+    const userData = {
+        name:name,
+        occupation:occupation,
+        newsletter:newsletter
+    }
+
+    await User.update(userData, { where: {id: id} })
+
+    res.redirect('/')
+
+})
+
+//start
 async function startServer() {
     try {
         await conn.sync();

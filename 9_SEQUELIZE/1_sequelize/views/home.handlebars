@@ -2,7 +2,15 @@
 <div class="container">
     {{#each users}}
     <div class="item">
-        <p>{{this.name}}</p>
+        <h2>{{this.name}}</h2>
+        <p>{{this.occupation}}</p>
+        <div class="actions">
+            <a href="/users/{{this.id}}" class="details-btn">Ver detalhes</a>
+            <a href="/users/edit/{{this.id}}" class="edit-btn">Editar</a>
+            <form action="/users/delete/{{this.id}}" method="POST" onsubmit="return confirmDelete()">
+                <input type="submit" value="Excluir" class="delete-btn">
+            </form>
+        </div>
     </div>
     {{/each}}
-</div>
+</div>  
