@@ -2,6 +2,7 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const conn = require('./db/conn.js')
 const User = require('./models/User.js')
+const Address = require('./models/Address.js')
 
 const app = express()
 
@@ -99,6 +100,24 @@ app.post('/users/update', async (req, res) => {
     res.redirect('/')
 
 })
+//adicionar endereço com relação por id
+app.post('/address/create', async (req, res) =>{
+    const UserId = req.body.UserId
+    const street = req.body.street
+    const number = req.body.number
+    const city = req.body.city
+    
+    const address = {
+        UserId,
+        street,
+        number,
+        city,
+    }
+
+    await Address.create(address)
+
+    res.redirect(`/users/edit/${UserId}`)
+})
 
 //start
 async function startServer() {
@@ -108,4 +127,6 @@ async function startServer() {
     } catch (err) {
         console.log(err);
     }
-}startServer()
+}
+
+startServer();
